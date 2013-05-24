@@ -1,0 +1,3 @@
+[submodule "php-gedcom"]
+	path = php-gedcom
+	url = https://github.com/mrkrstphr/php-gedcom.git
