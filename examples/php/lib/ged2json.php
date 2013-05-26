@@ -206,9 +206,6 @@ class ged2json {
                 continue;
             }
 
-            $refDate = 1000000;
-            $refplace = FALSE;
-
             // Get dates for each event
             foreach($ancestor['events'] as $eventId => $event){
                 if(array_key_exists('date',$event)){
@@ -226,10 +223,10 @@ class ged2json {
             // Sort events by date
             usort($ancestors[$id]['events'],Array('ged2json','eventUsort'));
 
-            if($refDate = $this->getRefDate($ancestor['events'])){
+            if($refDate = $this->getRefDate($ancestors[$id]['events'])){
                 $ancestors[$id]['refdate'] = $refDate;
             }
-            if($refPlace = $this->getRefPlace($ancestor['events'])){
+            if($refPlace = $this->getRefPlace($ancestors[$id]['events'])){
                 $ancestors[$id]['refplace'] = $refPlace;
             }
 
