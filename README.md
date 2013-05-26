@@ -94,12 +94,12 @@ Unknown parents are left as null (so the child Id key points to a null value)
 
 eg:
 
-{
-    childId1 : spouseId1, 
-    childId2 : spouseId1, 
-    childId3 : spouseId2, 
-    childId4 : null
-}
+    {
+        childId1 : spouseId1, 
+        childId2 : spouseId1, 
+        childId3 : spouseId2, 
+        childId4 : null
+    }
 
 ### Event Objects
 
