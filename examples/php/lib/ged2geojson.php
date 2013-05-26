@@ -11,9 +11,9 @@ class ged2geojson extends ged2json{
     public function toJsonArray($summary = TRUE){
         $ancestors = $this->parse($summary);
 
-        $this->geocode();
+        $this->geocode($ancestors);
 
-        if(!$details){
+        if($summary){
            $this->filter($ancestors); 
         }
 
@@ -22,10 +22,9 @@ class ged2geojson extends ged2json{
         );
 
         foreach($ancestors as $ancestorId => $ancestor){
-
             if(array_key_exists('events',$ancestor)){
                 if($refPlace = $this->getRefPlace($ancestor['events'])){
-                    $ancestors[$ancestorId]['refplace'] = $refPlace;
+                    $ancestor['refplace'] = $refPlace;
                 }
             }
 
@@ -55,7 +54,7 @@ class ged2geojson extends ged2json{
      *
      * @return void -- modifies events inside of $ancestors
      */
-    private function geocode(&$ancestors){
+    protected function geocode(&$ancestors){
         $places = Array();
 
         foreach($ancestors as $ancestor){
@@ -73,12 +72,12 @@ class ged2geojson extends ged2json{
         $geocoder = new ssgeocoder('/tmp/test.sqlite');
         $geoplaces = $geocoder->geocode($places);
 
-        foreach($this->ancestors as $ancestorId => $ancestor){
+        foreach($ancestors as $ancestorId => $ancestor){
             if(array_key_exists('events',$ancestor)){
                 foreach($ancestor['events'] as $eventId => $event){
                     if(array_key_exists('place',$event)){
-                        if(array_key_exists($event['place'],$geoplaces)){
-                            $this->ancestor[$ancestorId]['events'][$eventId]['geo'] = $geoplaces[$event['place']];
+                        if(array_key_exists($event['place']['raw'],$geoplaces)){
+                            $ancestors[$ancestorId]['events'][$eventId]['place']['geo'] = $geoplaces[$event['place']['raw']];
                         } 
                     }
                 }
@@ -89,7 +88,7 @@ class ged2geojson extends ged2json{
     /**
      * Override the getRefPlace to only accept places with geocoordinates
      */
-    private function getRefPlace($events){
+    protected function getRefPlace($events){
         foreach($events as $eventId => $event){
             if(array_key_exists('place',$event) && array_key_exists('geo',$event['place'])){
                 return $event['place'];

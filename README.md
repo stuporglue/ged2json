@@ -79,6 +79,8 @@ A single ancetor is represented as follows:
         refplace    : A reference set of coordinates for the earliest known geocoded place for the ancestor
         husb  	    : [An array of person IDs],
         wife        : [An array of person IDs],
+        mothers     : [An array of wive IDs who claim this individual as a child],
+        fathers     : [An array of husband IDs who claim this individual as a child],
         children    : {A child object},
         parents     : [An array of parent IDs],
         events      : [An array of event objects]

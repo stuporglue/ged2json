@@ -48,12 +48,12 @@ class ged2json {
     /**
      * @brief Return the the gedjson as an array
      *
-     * @param $details (bool/FALSE) Show full details?
+     * @param $summary (bool/TRUE) Show Summary?
      */
-    public function toJsonArray($details = FALSE){
-        $ancestors = $this->parse($details);
+    public function toJsonArray($summary = FALSE){
+        $ancestors = $this->parse($summary);
 
-        if(!$details){
+        if($summary){
            $this->filter($ancestors); 
         }
 
@@ -63,8 +63,8 @@ class ged2json {
     /**
      * @brief Return the gedjson as a string
      */
-    public function toJson($details = FALSE){
-        return json_encode($this->toJsonArray($details));
+    public function toJson($summary = TRUE){
+        return json_encode($this->toJsonArray($summary));
     }
 
     /**
@@ -80,7 +80,7 @@ class ged2json {
      *
      * @return Returns an array of ancestors
      */
-    private function parse($summary = TRUE){
+    protected function parse($summary = TRUE){
         // Sort by refdate
         $ancestors = Array();
 
@@ -139,6 +139,12 @@ class ged2json {
                 if($husbId){
                     $ancestors[$husbId]['children'][$childId] = $wifeId;
                 }
+                if($wifeId){
+                    $ancestors[$childId]['mothers'][] = $wifeId;
+                }
+                if($husbId){
+                    $ancestors[$childId]['fathers'][] = $husbId;
+                }
             }
 
             foreach($family->getEven() as $event){
@@ -164,7 +170,7 @@ class ged2json {
      *
      * @return An events array object
      */
-    private function parseEvent($event){
+    protected function parseEvent($event){
         $parsedEvent = Array();
 
         // Set type
@@ -191,7 +197,7 @@ class ged2json {
      *
      * @param $ancestors (required) The ancestors array to sort
      */
-    private function sortAncestors(&$ancestors){
+    protected function sortAncestors(&$ancestors){
         // Two pass sort. First, sort each ancestor's events by date and set the refdate
         // Then sort the ancestors by refdate
 
@@ -240,7 +246,7 @@ class ged2json {
      *
      * @return 0,1,-1
      */
-    private function ancestorUSort($a,$b){
+    protected function ancestorUSort($a,$b){
             if(!array_key_exists('refdate',$a) && !array_key_exists('refdate',$b)){
                 return 0;
             }
@@ -262,7 +268,7 @@ class ged2json {
      *
      * @return 0,1,-1
      */
-    private function eventUsort($refa,$refb){
+    protected function eventUsort($refa,$refb){
             foreach(Array('y','m','d') as $sortKey){
                 if(!array_key_exists($sortKey,$refa) && !array_key_exists($sortKey,$refb)){
                     return 0;
@@ -294,7 +300,7 @@ class ged2json {
      * 
      * @return The earliest date object for a person
      */
-    private function getRefDate($events){
+    protected function getRefDate($events){
         // Get the first date as their ref date
         foreach($events as $eventId => $event){
             if(array_key_exists('date',$event)){
@@ -311,7 +317,7 @@ class ged2json {
      *
      * @return The earliest place object for a person
      */
-     private function getRefPlace($events){
+     protected function getRefPlace($events){
         // Get the first date as their ref date
         foreach($events as $eventId => $event){
             if(array_key_exists('place',$event)){
@@ -330,7 +336,7 @@ class ged2json {
      *
      * @note 32-bit PHP is limited to dates between 1970 and 2038. Use PHP 64-bit for larger date ranges
      */
-    private function parseDateString($string){
+    protected function parseDateString($string){
         // might be a year!
         $ts = date_create_from_format('Y',$string);
         if($ts === FALSE){
@@ -347,7 +353,7 @@ class ged2json {
      *
      * @param $ancestors (required) The array of ancestors which need their events filtered
      */
-    private function filter(&$ancestors){
+    protected function filter(&$ancestors){
         foreach($ancestors as $ancestorId => $ancestor){
                 if(!array_key_exists('events',$ancestor)){
                     continue;
