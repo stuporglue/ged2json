@@ -133,7 +133,7 @@ The place object represents a place with a string or coordinates
 
     {
         raw     : The raw place string from the gedcom,
-        geo     : [long,lat]
+        geo     : {GeoJSON Feature}
     }
 
 ## Sample Implementation
