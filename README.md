@@ -4,6 +4,8 @@ ged2json
 ged2json converts [GEDCOM](http://homepages.rootsweb.ancestry.com/~pmcbride/gedcom/55gctoc.htm) 
 files into a simple [JSON](http://www.json.org/) format for online display use. 
 
+It comes in two flavors, array and GeoJSON.
+
 It is a one-way format, it is not meant for conversion back to GEDCOM. 
 
 This spec is in progress.
@@ -19,8 +21,6 @@ javascript or other applications.
 
 To update the genealogical data on the web the user would update the data in their
 desktop program and export a new GEDCOM file. 
-
-## API
 
 
 ## JSON Output
@@ -77,42 +77,66 @@ A single ancetor is represented as follows:
         gender      : F|M|U,
         refdate     : A reference date object for the earliest known date for the ancestor,
         refplace    : A reference set of coordinates for the earliest known geocoded place for the ancestor
-        husb  	    : {A Family object},
-        wife        : {A Family object},
+        husb  	    : [An array of person IDs],
+        wife        : [An array of person IDs],
+        children    : {A child object},
         parents     : [An array of parent IDs],
         events      : [An array of event objects]
     }
 
-### Family Object
+### Child Object
 
-The Family object is a hash of spoue IDs and an array of child IDs.
+A hash of all of a person's children, pointing at their other parent.
 
-    {
-        spouseId : [An array of ChildIds]
-    }
- 
+Unknown parents are left as null (so the child Id key points to a null value)
+
+eg:
+
+{
+    childId1 : spouseId1, 
+    childId2 : spouseId1, 
+    childId3 : spouseId2, 
+    childId4 : null
+}
+
 ### Event Objects
 
 Events have a type, a date and a place. If geocoding is selected the place
 string is attempted to be geocoded.
 
     {
-        type        : The GEDCOM event type,
-        date        : Event date object,
-        place       : String of place name,
-        geo         : {GeoJSON Coordinates}
+        type        : The GEDCOM event type string,
+        date        : {Event date object},
+        place       : {Place object},
     }
 
 ### Date Objects
 
 Date objects are used for the individual and for events
 
+*Note*: Construction JavaScript Date objects means using 0-based month numbers. We follow that wacky convention.
+
     { 
         raw         : The raw date string,
-        ymd         : The parsed date in Y-m-d format,
-        y           : The parsed date's year only
+        y           : The parsed date's year only,
+        m           : The parsed date's month only,
+        d           : The parsed date's day only
     }
 
-## Examples
+### Place Object
+
+The place object represents a place with a string or coordinates
+
+*Note*: Coordinates are in GeoJSON coordinate order (long,lat)
+
+    {
+        raw     : The raw place string from the gedcom,
+        geo     : [long,lat]
+    }
+
+## Sample Implementation
+
+
+### Examples
 
 Coming real soon.
