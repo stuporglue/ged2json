@@ -82,7 +82,6 @@ A single ancetor is represented as follows:
         mothers     : [An array of wive IDs who claim this individual as a child],
         fathers     : [An array of husband IDs who claim this individual as a child],
         children    : {A child object},
-        parents     : [An array of parent IDs],
         events      : [An array of event objects]
     }
 
