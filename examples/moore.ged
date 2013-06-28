@@ -2,21 +2,28 @@
 1 SOUR Gramps
 2 VERS 3.4.0-1
 2 NAME Gramps
-1 DATE 29 APR 2013
-2 TIME 23:23:15
+1 DATE 6 JUN 2013
+2 TIME 07:46:15
 1 SUBM @SUBM@
-1 FILE /home/stuporglue/src/Pedigree-Viewer/sample/moore_cleaned.ged
-1 COPR Copyright (c) 2013 .
+1 FILE /home/stuporglue/src/Pedigree-Viewer/lib/ged2json/examples/moore.ged
+1 COPR Copyright (c) 2013 Michael Moore.
 1 GEDC
 2 VERS 5.5
 2 FORM LINEAGE-LINKED
 1 CHAR UTF-8
 1 LANG English
 0 @SUBM@ SUBM
-1 NAME Not Provided
-1 ADDR Not Provided
-2 CONT Not Provided
-2 ADR1 Not Provided
+1 NAME Michael Moore
+1 ADDR 123 Fake Street
+2 CONT Fridley, MN 55432
+2 ADR1 123 Fake Street
+2 ADR2 Some Locality
+2 CITY Fridley
+2 STAE MN
+2 POST 55432
+2 CTRY USA
+1 PHON 651-356-8820
+1 EMAIL stuporglue@gmail.com
 0 @I0001@ INDI
 1 NAME Howard W. /Moore/
 2 GIVN Howard W.

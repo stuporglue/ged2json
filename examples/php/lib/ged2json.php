@@ -61,6 +61,21 @@ class ged2json {
     }
 
     /**
+     * @brief Return a hash with the GEDCOM IDs as the keys
+     *
+     * @param $summary (bool/TRUE) Show Summary?
+     */
+    public function toJsonHash($summary = FALSE){
+        $ancestors = $this->toJsonArray($summary);
+        $ahash = Array();
+        foreach($ancestors as $ancestor){
+            $ahash[$ancestor['id']] = $ancestor;
+        }
+        return $ahash;
+    }
+
+
+    /**
      * @brief Return the gedjson as a string
      */
     public function toJson($summary = TRUE){
@@ -362,6 +377,9 @@ class ged2json {
                 }
                 if(count($ancestors[$ancestorId]['events']) === 0){
                     unset($ancestors[$ancestorId]['events']);
+                }else{
+                    // Reset array, otherwise arrays with missing keys (eg. 0,1,3) will end up being hashes instead of arrays in json
+                    $ancestors[$ancestorId]['events'] = array_values($ancestors[$ancestorId]['events']);
                 }
             }
     }
