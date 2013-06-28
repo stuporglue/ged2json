@@ -6,7 +6,7 @@
  * The resulting GeoJSON will have every a GEDJSON ancestor as a feature.
  */
 
-class ged2geojson extends ged2json{
+class ged2geojson extends ged2json {
 
     public function toJsonArray($summary = TRUE){
         $ancestors = $this->parse($summary);

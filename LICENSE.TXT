@@ -1,0 +1,5 @@
+The PHP code examples are licensed under the GPL, version 3. The php-gedcom library it uses is licensed under the GPL, version 3, so that code is too. 
+
+If you would like to contribute examples in another language you may license them under any OSI approved license.
+
+The JSON and GeoJSON output formats are free for any use, commercial or non, without any requirements for releasing source code. 
