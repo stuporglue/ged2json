@@ -7,6 +7,12 @@
  */
 
 class ged2geojson extends ged2json {
+    var $geocoder;
+
+    public function __construct($gedcomFile,$geoCache = NULL){
+        $this->geocoder = new ssgeocoder($geoCache);
+        parent::__construct($gedcomFile);
+    }
 
     public function toJsonArray($summary = TRUE){
         $ancestors = $this->parse($summary);
@@ -68,9 +74,7 @@ class ged2geojson extends ged2json {
         }
 
         $places = array_unique($places);
-        require('ssgeocoder.php');
-        $geocoder = new ssgeocoder();
-        $geoplaces = $geocoder->geocode($places);
+        $geoplaces = $this->geocoder->geocode($places);
 
         foreach($ancestors as $ancestorId => $ancestor){
             if(array_key_exists('events',$ancestor)){
