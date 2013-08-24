@@ -93,10 +93,23 @@ class ged2geojson extends ged2json {
      * Override the getRefPlace to only accept places with geocoordinates
      */
     protected function getRefPlace($events){
+        $placeFound = FALSE;
+        $typeFound = 100;
+
+        // These are preferred in this order, anything else we'll pick the first one we find
+        $typeOrder = Array( 'BIRT','BAPM','ADOP','BLES');
+
         foreach($events as $eventId => $event){
-            if(array_key_exists('place',$event) && array_key_exists('geo',$event['place'])){
-                return $event['place'];
+
+            $idx = array_search($event['type'],$typeOrder);
+            if($idx === FALSE){ $idx = 99; }
+
+            if($idx < $typeFound && array_key_exists('place',$event) && array_key_exists('geo',$event['place'])){
+                $placeFound = $event['place'];
+                $typeFound = $idx;
             }
         }
+
+        return $placeFound;
     }
 }
