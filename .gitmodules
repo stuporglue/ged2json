@@ -1,6 +1,3 @@
 [submodule "examples/php/lib/ssgeocoder"]
 	path = examples/php/lib/ssgeocoder
 	url = https://github.com/stuporglue/ssgeocoder.git
-[submodule "examples/php/lib/php-gedcom"]
-	path = examples/php/lib/php-gedcom
-	url = https://github.com/stuporglue/php-gedcom-1.git
