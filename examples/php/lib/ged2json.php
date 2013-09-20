@@ -40,9 +40,13 @@ class ged2json {
             throw new Exception("Gedcom file $gedcomFile does not exist");
         }
 
-        // Parse the given file
-        $parser = new PhpGedcom\Parser();
-        $this->gedcom = $parser->parse($gedcomFile);
+        if(is_object($gedcomFile)){
+            $this->gedcom = $gedcomFile;
+        }else if(is_string($gedcomFile)){
+            // Parse the given file
+            $parser = new PhpGedcom\Parser();
+            $this->gedcom = $parser->parse($gedcomFile);
+        }
     }
 
     /**
