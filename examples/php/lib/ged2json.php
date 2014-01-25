@@ -36,13 +36,14 @@ class ged2json {
      */
     public function __construct($gedcomFile){
         // Get the gedcome parameter and ensure that it exists
-        if(!file_exists($gedcomFile)){
-            throw new Exception("Gedcom file $gedcomFile does not exist");
-        }
 
         if(is_object($gedcomFile)){
             $this->gedcom = $gedcomFile;
         }else if(is_string($gedcomFile)){
+            if(!file_exists($gedcomFile)){
+                throw new Exception("Gedcom file $gedcomFile does not exist");
+            }
+
             // Parse the given file
             $parser = new PhpGedcom\Parser();
             $this->gedcom = $parser->parse($gedcomFile);
