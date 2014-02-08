@@ -3,4 +3,4 @@
 	url = https://github.com/stuporglue/ssgeocoder.git
 [submodule "examples/php/lib/php-gedcom"]
 	path = examples/php/lib/php-gedcom
-	url = https://github.com/mrkrstphr/php-gedcom.git
+	url = https://github.com/stuporglue/php-gedcom-1.git
